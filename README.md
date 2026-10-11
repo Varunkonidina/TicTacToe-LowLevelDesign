@@ -1,59 +1,65 @@
-GitHub Package Template
-Tic-Tac-Toe Architecture UML
-Classes
-6
-Links
-5
-Status
-Ready
-```mermaid
 classDiagram
-    class TicTacToeEngine{
-        - board: Board
-        - players: Player[]
-        - currentPlayerIdx: int
-        - status: GameStatus
-        + startGame(): void
-        + makeMove(row: int, col: int): boolean
-        + checkWin(): boolean
-        + switchPlayer(): void
+    class Symbol {
+        <<enumeration>>
+        X
+        O
+        EMPTY
     }
-    class Board{
-        - cells: Cell[][]
-        - size: int
-        + initialize(): void
-        + setCellValue(r: int, c: int, val: CellValue): boolean
-        + isFull(): boolean
-        + reset(): void
+    class GameStatus {
+        <<enumeration>>
+        IN_PROGRESS
+        X_WON
+        O_WON
+        DRAW
     }
-    class Cell{
-        - row: int
-        - col: int
-        - value: CellValue
-        + getValue(): CellValue
-        + setValue(val: CellValue): void
-        + isEmpty(): boolean
+    class Cell {
+        -int row
+        -int col
+        -Symbol symbol
+        +isEmpty() boolean
+        +setSymbol(Symbol s) void
     }
-    class Player{
-         <<abstract>>
-        # name: String
-        # symbol: CellValue
-        + getMove(board: Board): Move
-        + getName(): String
-        + getSymbol(): CellValue
+    class Board {
+        -Cell[][] grid
+        +initialize() void
+        +makeMove(Move move) boolean
+        +isFull() boolean
+        +getCell(int r, int c) Cell
     }
-    class HumanPlayer{
-        - inputScanner: Scanner
-        + getMove(board: Board): Move
+    class Move {
+        +int row
+        +int col
+        +Symbol symbol
     }
-    class ComputerPlayer{
-        - difficultyLevel: String
-        + getMove(board: Board): Move
-        - minimax(board: Board, depth: int): int
+    class Player {
+        -String name
+        -Symbol symbol
+        +takeTurn(Board board) Move
     }
-    TicTacToeEngine *-- Board : 1
-    TicTacToeEngine --> Player : 2
-    Board *-- Cell : 9
-    Player <|-- HumanPlayer
-    Player <|-- ComputerPlayer
-```
+    class GameEngine {
+        -Board board
+        -Player player1
+        -Player player2
+        -Player currentPlayer
+        -GameStatus status
+        +startGame() void
+        +switchPlayer() void
+        +checkWinner() GameStatus
+        +playTurn() void
+    }
+    class GameUI {
+        <<interface>>
+        +render(Board board) void
+        +showWinner(GameStatus status) void
+        +getInput() Move
+    }
+
+    Board *-- Cell
+    GameEngine --> Board
+    GameEngine --> Player
+    GameEngine --> GameStatus
+    Player --> Symbol
+    Cell --> Symbol
+    Player ..> Move
+    GameEngine ..> GameUI
+    Board ..> Move
