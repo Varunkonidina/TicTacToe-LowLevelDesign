@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
     class Symbol {
         <<enumeration>>
@@ -63,3 +64,4 @@ classDiagram
     Player ..> Move
     GameEngine ..> GameUI
     Board ..> Move
+```
