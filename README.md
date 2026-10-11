@@ -1,24 +1,14 @@
+```mermaid
 classDiagram
-    %% Class Interactivity (Click Navigation)
-    click Symbol "https://github.com" "Go to Symbol source"
-    click Status "https://github.com" "Go to Status source"
-    click Cell "https://github.com" "Go to Board source (Inner Cell)"
-    click Board "https://github.com" "Go to Board source"
-    click Move "https://github.com" "Go to Move source"
-    click Player "https://github.com" "Go to Player source"
-    click Game "https://github.com" "Go to Game source"
-    click App "https://github.com" "Go to App source"
-
-    %% Relationships
-    Board *-- Cell : "Composition (Inner Class)"
-    Game o-- Player : "Aggregation (List of 2)"
-    Game *-- Board : "Composition"
-    Game --> Status : "Tracks State"
-    Cell --> Symbol : "References"
-    Player --> Symbol : "Has a"
-    Move --> Player : "Belongs to"
-    Game ..> Move : "Processes"
-    App ..> Game : "Orchestrates"
+    Board *-- Cell : Composition
+    Game o-- Player : Aggregation
+    Game *-- Board : Composition
+    Game --> Status : Tracks state
+    Cell --> Symbol : References
+    Player --> Symbol : Has a
+    Move --> Player : Belongs to
+    Game ..> Move : Processes
+    App ..> Game : Uses
 
     class Symbol {
         <<enumeration>>
@@ -94,3 +84,4 @@ classDiagram
     class App {
         +main(String[] args) void
     }
+```
