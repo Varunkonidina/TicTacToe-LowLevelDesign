@@ -1,5 +1,7 @@
 ```mermaid
 classDiagram
+    direction TB
+
     Board *-- Cell : Composition
     Game o-- Player : Aggregation
     Game *-- Board : Composition
@@ -84,4 +86,13 @@ classDiagram
     class App {
         +main(String[] args) void
     }
+
+    click Symbol href "https://github.com/Varunkonidina/TicTacToe-LowLevelDesign/blob/main/src/Symbol.java" "Open Symbol.java"
+    click Status href "https://github.com/Varunkonidina/TicTacToe-LowLevelDesign/blob/main/src/Status.java" "Open Status.java"
+    click Cell href "https://github.com/Varunkonidina/TicTacToe-LowLevelDesign/blob/main/src/Board.java" "Open Board.java (inner Cell class)"
+    click Board href "https://github.com/Varunkonidina/TicTacToe-LowLevelDesign/blob/main/src/Board.java" "Open Board.java"
+    click Move href "https://github.com/Varunkonidina/TicTacToe-LowLevelDesign/blob/main/src/Move.java" "Open Move.java"
+    click Player href "https://github.com/Varunkonidina/TicTacToe-LowLevelDesign/blob/main/src/Player.java" "Open Player.java"
+    click Game href "https://github.com/Varunkonidina/TicTacToe-LowLevelDesign/blob/main/src/Game.java" "Open Game.java"
+    click App href "https://github.com/Varunkonidina/TicTacToe-LowLevelDesign/blob/main/src/App.java" "Open App.java"
 ```
