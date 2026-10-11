@@ -1,18 +1,59 @@
-## Getting Started
-
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
-
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+GitHub Package Template
+Tic-Tac-Toe Architecture UML
+Classes
+6
+Links
+5
+Status
+Ready
+```mermaid
+classDiagram
+    class TicTacToeEngine{
+        - board: Board
+        - players: Player[]
+        - currentPlayerIdx: int
+        - status: GameStatus
+        + startGame(): void
+        + makeMove(row: int, col: int): boolean
+        + checkWin(): boolean
+        + switchPlayer(): void
+    }
+    class Board{
+        - cells: Cell[][]
+        - size: int
+        + initialize(): void
+        + setCellValue(r: int, c: int, val: CellValue): boolean
+        + isFull(): boolean
+        + reset(): void
+    }
+    class Cell{
+        - row: int
+        - col: int
+        - value: CellValue
+        + getValue(): CellValue
+        + setValue(val: CellValue): void
+        + isEmpty(): boolean
+    }
+    class Player{
+         <<abstract>>
+        # name: String
+        # symbol: CellValue
+        + getMove(board: Board): Move
+        + getName(): String
+        + getSymbol(): CellValue
+    }
+    class HumanPlayer{
+        - inputScanner: Scanner
+        + getMove(board: Board): Move
+    }
+    class ComputerPlayer{
+        - difficultyLevel: String
+        + getMove(board: Board): Move
+        - minimax(board: Board, depth: int): int
+    }
+    TicTacToeEngine *-- Board : 1
+    TicTacToeEngine --> Player : 2
+    Board *-- Cell : 9
+    Player <|-- HumanPlayer
+    Player <|-- ComputerPlayer
+```
