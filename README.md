@@ -1,67 +1,96 @@
-```mermaid
 classDiagram
+    %% Class Interactivity (Click Navigation)
+    click Symbol "https://github.com" "Go to Symbol source"
+    click Status "https://github.com" "Go to Status source"
+    click Cell "https://github.com" "Go to Board source (Inner Cell)"
+    click Board "https://github.com" "Go to Board source"
+    click Move "https://github.com" "Go to Move source"
+    click Player "https://github.com" "Go to Player source"
+    click Game "https://github.com" "Go to Game source"
+    click App "https://github.com" "Go to App source"
+
+    %% Relationships
+    Board *-- Cell : "Composition (Inner Class)"
+    Game o-- Player : "Aggregation (List of 2)"
+    Game *-- Board : "Composition"
+    Game --> Status : "Tracks State"
+    Cell --> Symbol : "References"
+    Player --> Symbol : "Has a"
+    Move --> Player : "Belongs to"
+    Game ..> Move : "Processes"
+    App ..> Game : "Orchestrates"
+
     class Symbol {
         <<enumeration>>
         X
         O
-        EMPTY
     }
-    class GameStatus {
+
+    class Status {
         <<enumeration>>
         IN_PROGRESS
-        X_WON
-        O_WON
+        WON
         DRAW
     }
+
     class Cell {
-        -int row
-        -int col
         -Symbol symbol
         +isEmpty() boolean
-        +setSymbol(Symbol s) void
+        +getSymbol() Symbol
+        ~placeSymbol(Symbol symbol) void
     }
+
     class Board {
-        -Cell[][] grid
-        +initialize() void
-        +makeMove(Move move) boolean
+        -Cell[][] gameBoard
+        -int[] row
+        -int[] col
+        -int diag
+        -int antidiag
+        -int filled
+        -int n
+        +Board(int n)
+        -isvalid(int r, int c) void
+        +getSymbol(int r, int c) Symbol
+        -getCell(int r, int c) Cell
+        +placeSymbol(int r, int c, Symbol symbol) void
+        +hasWinningLine(int r, int c) boolean
         +isFull() boolean
-        +getCell(int r, int c) Cell
+        +reset() void
+        +getSize() int
+        +isCellEmpty(int r, int c) boolean
     }
-    class Move {
-        +int row
-        +int col
-        +Symbol symbol
-    }
+
     class Player {
         -String name
         -Symbol symbol
-        +takeTurn(Board board) Move
-    }
-    class GameEngine {
-        -Board board
-        -Player player1
-        -Player player2
-        -Player currentPlayer
-        -GameStatus status
-        +startGame() void
-        +switchPlayer() void
-        +checkWinner() GameStatus
-        +playTurn() void
-    }
-    class GameUI {
-        <<interface>>
-        +render(Board board) void
-        +showWinner(GameStatus status) void
-        +getInput() Move
+        +getName() String
+        +getSymbol() Symbol
     }
 
-    Board *-- Cell
-    GameEngine --> Board
-    GameEngine --> Player
-    GameEngine --> GameStatus
-    Player --> Symbol
-    Cell --> Symbol
-    Player ..> Move
-    GameEngine ..> GameUI
-    Board ..> Move
-```
+    class Move {
+        -Player player
+        -int row
+        -int col
+        +getPlayer() Player
+        +getRow() int
+        +getCol() int
+    }
+
+    class Game {
+        -Board board
+        -Status status
+        -List~Player~ players
+        -Player currentPlayer
+        -Player winner
+        +Game(List~Player~ players, int n)
+        -start() void
+        +makeMove(Move move) void
+        +getCurrentPlayer() Player
+        +getStatus() Status
+        +getWinner() Player
+        +reset() void
+    }
+
+    class App {
+        +main(String[] args) void
+    }
